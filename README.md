@@ -17,6 +17,14 @@ cmake -S . -B build && cmake --build build
 
 Full usage: [docs/user-manual.md](docs/user-manual.md). Captured CLI sessions (ONNX and TFLite): [docs/example-usage.md](docs/example-usage.md). Command help: `nn help <command>` or `nn <command> --help`.
 
+## Engineering Highlights
+
+- **Embedded deployment analysis:** Estimates model memory, computation, quantization, sparsity, and compatibility with hardware targets such as Cortex-M4F without requiring on-device execution ([commands](#commands), [user manual](docs/user-manual.md)).
+- **Artifact-inspection architecture:** Native C++20 CLI with a shared `ModelIR`, separate format readers, and a `libnn_core.a` library; machine-readable JSON/porcelain output supports automation ([design](#design), [CLI examples](docs/example-usage.md)).
+- **Defensive parsing:** Bounds-checks untrusted artifacts and checks tensor-size arithmetic for overflow; PyTorch pickle payloads are not deserialized ([design and security policy](#design)).
+- **Explicit backend limits:** ONNX Runtime and LiteRT execution require linked SDKs; unsupported conversion/execution paths report unavailable rather than pretending support ([format matrix](#formats), [backend matrix](#execution)).
+- **Reproducible verification:** CMake/CTest builds, optional ASan/UBSan and fuzz targets, and Linux GCC/Clang jobs. GitHub Actions is **manually dispatched**, not configured to run automatically on each push ([build instructions](#build), [CI configuration](.github/workflows/ci.yml)).
+
 ## Quick start
 
 ```bash
